@@ -9,8 +9,8 @@ services:
       - static_files:/app/staticfiles
       - media_files:/app/media
       - db_volume:/app/database
-    ports:
-      - "8000:8000"
+    expose:
+      - "8000"
     command: >
       sh -c "python manage.py migrate && 
              gunicorn core.wsgi:application --bind 0.0.0.0:8000"
