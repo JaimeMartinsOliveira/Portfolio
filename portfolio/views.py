@@ -3,7 +3,6 @@
 from django.shortcuts import render
 from .models import Experience, Skill, Formacao, SobreMim, Projeto, Apresentacao, VisitorCount
 from collections import OrderedDict
-from captcha.utils import process_first_visit
 
 def home(request):
     apresentacao = Apresentacao.objects.first()
@@ -21,7 +20,6 @@ def home(request):
         visitor_count_obj.count += 1
         visitor_count_obj.save()
 
-        process_first_visit(request)
         request.session['has_visited'] = True
 
     for cat_key in category_order:
