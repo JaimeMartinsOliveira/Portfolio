@@ -1,11 +1,5 @@
-# captcha/utils.py
-import os
-import threading
 import logging
-from .evolution import EvolutionAPI
-from .models import CaptchaLog, PageView
-from django.utils import timezone
-from datetime import timedelta
+from .models import PageView
 from ipware import get_client_ip
 from django.contrib.gis.geoip2 import GeoIP2
 from urllib.parse import urlparse
@@ -56,56 +50,3 @@ def save_detailed_page_view(request):
             print(f"PageView salvo para o IP: {ip}")
     except Exception as e:
         print(f"Erro ao salvar PageView: {e}")
-
-
-def send_whatsapp_notification(request):
-    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    if x_forwarded_for:
-        ip_address = x_forwarded_for.split(',')[0]
-    else:
-        ip_address = request.META.get('REMOTE_ADDR')
-
-    one_hour_ago = timezone.now() - timedelta(hours=1)
-    if CaptchaLog.objects.filter(ip_address=ip_address, timestamp__gte=one_hour_ago).exists():
-        logging.info(f"Notificação para o IP {ip_address} já foi enviada na última hora. Pulando.")
-        return
-
-    recipient_phone = os.getenv('WHATSAPP_RECIPIENT_PHONE')
-    if not recipient_phone:
-        logging.error("A variável de ambiente WHATSAPP_RECIPIENT_PHONE não está definida.")
-        return
-
-    path_info = request.path_info
-    logging.info(f"Tentando enviar notificação para o IP: {ip_address} que acessou {path_info}")
-
-    try:
-        message = (
-            f"🚨 *Alerta de Visita no Portfólio* 🚨\n\n"
-            f"Um novo visitante acessou seu site!\n\n"
-            f"*IP:* `{ip_address}`\n"
-            f"*Página:* `{path_info}`"
-        )
-
-        api = EvolutionAPI()
-
-        response = api.send_text_message(number=recipient_phone, text=message)
-
-        if response:
-            CaptchaLog.objects.create(ip_address=ip_address, action='notification_sent')
-            logging.info(f"Notificação enviada com sucesso para o IP: {ip_address}")
-        else:
-            logging.error(f"Falha ao enviar notificação para o IP: {ip_address}. Resposta da API foi nula.")
-
-    except Exception as e:
-        logging.error(f"Erro inesperado ao processar notificação para o IP {ip_address}: {e}")
-
-
-def process_first_visit(request):
-
-    notification_thread = threading.Thread(target=send_whatsapp_notification, args=(request,))
-    notification_thread.daemon = True
-    notification_thread.start()
-
-    page_view_thread = threading.Thread(target=save_detailed_page_view, args=(request,))
-    page_view_thread.daemon = True
-    page_view_thread.start()
