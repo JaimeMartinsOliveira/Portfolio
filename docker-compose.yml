@@ -1,21 +1,11 @@
-version: '3.9'
+version: '3.7'
 
 services:
   web:
     build: .
-    container_name: new_portfolio_prod
-    restart: unless-stopped
-    volumes:
-      - static_files:/app/staticfiles
-      - media_files:/app/media
-      - db_volume:/app/database
-    expose:
-      - "8000"
+    ports:
+      - "8000:8000"
     command: >
-      sh -c "python manage.py migrate && 
+      sh -c "python manage.py migrate &&
+             python manage.py collectstatic --noinput &&
              gunicorn core.wsgi:application --bind 0.0.0.0:8000"
-
-volumes:
-  db_volume:
-  static_files:
-  media_files:
