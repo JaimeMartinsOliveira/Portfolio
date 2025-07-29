@@ -6,487 +6,194 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jaime Martins - Desenvolvedor Back-end GenAI</title>
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <meta name="description" content="Portfólio de Jaime Martins - Desenvolvedor Back-end especialista em GenAI, APIs e automações com foco em performance e inovação.">
+    <meta name="keywords" content="Desenvolvedor Back-end, GenAI, APIs, Python, Django, FastAPI, LLM, IA Generativa, Freelancer, Jaime Martins">
+    <meta name="author" content="Jaime Martins">
 
-    <link rel="icon" href="{{ apresentacao.imagem.url }}">
+    <link rel="icon" href="{{ apresentacao.imagem.url|default:'/static/images/default-favicon.png' }}">
+    <link rel="apple-touch-icon" href="{{ apresentacao.imagem.url|default:'/static/images/default-favicon.png' }}">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.5.1/github-markdown.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = { darkMode: 'class', theme: { extend: {} } }
+    </script>
+    <script>
+        // Aplica o tema imediatamente para evitar flash de conteúdo
+        (function() {
+            const theme = localStorage.getItem('theme');
+            if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            }
+        })();
+    </script>
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Poppins', sans-serif; }
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            scroll-behavior: smooth;
-        }
+        /* Estrutura Hero com Fundo Animado */
+        #hero-container { position: relative; overflow: hidden; }
+        .hero-gradient { background: linear-gradient(-45deg,#0d1a3a,#1e40af,#1d4ed8,#2563eb); background-size: 400% 400%; animation: gradient 15s ease infinite; position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 1; }
+        .dark .hero-gradient { background: linear-gradient(-45deg,#020617,#0f172a,#1e3a8a,#1e40af); background-size: 400% 400%; animation: gradient 15s ease infinite; }
+        #neural-network-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; }
+        #hero-content { position: relative; z-index: 3; }
 
+        /* Animação de Flutuação */
+        .animate-float { animation: float 6s ease-in-out infinite; }
 
-        .nav-link {
-            position: relative;
-        }
+        /* Estilos Gerais */
+        .nav-link{position:relative}.nav-link::after{content:'';position:absolute;width:0;height:2px;bottom:-2px;left:0;background-color:#3b82f6;transition:width .3s ease}.nav-link:hover::after{width:100%}
 
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -2px;
-            left: 0;
-            background-color: #3b82f6;
-            transition: width 0.3s ease;
-        }
-
-        .nav-link:hover::after {
-            width: 100%;
-        }
-
-        .skill-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-        }
-
-        .experience-card {
-            transition: all 0.3s ease;
-        }
-
-        .experience-card:hover {
-            transform: translateX(5px);
-            border-left: 4px solid #3b82f6;
-        }
-
-        .project-card {
-            transition: all 0.3s ease;
-        }
-
-        .project-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        }
-
+        /* AJUSTE: Estilo para o botão "Ler mais" */
         .read-more-btn {
-            color: #3b82f6; /* Azul */
-            font-weight: 500;
+            color: #2563eb; /* Azul */
+            font-weight: 600; /* Negrito */
             cursor: pointer;
             display: inline-block;
             margin-top: 8px;
+            transition: color 0.2s;
         }
-
         .read-more-btn:hover {
+            color: #1d4ed8;
             text-decoration: underline;
         }
-
-
-
-        .hero-gradient {
-            background: linear-gradient(-45deg, #1e3a8a, #0ea5e9, #3b82f6, #60a5fa);
-            background-size: 400% 400%;
-            animation: gradient 15s ease infinite;
-            position: relative;
-            overflow: hidden;
+        .dark .read-more-btn {
+            color: #60a5fa; /* Tom de azul mais claro para modo escuro */
+        }
+        .dark .read-more-btn:hover {
+            color: #93c5fd;
         }
 
-        .dark .hero-gradient {
-            background: linear-gradient(-45deg, #0f172a, #1e40af, #1e3a8a, #2563eb);
-            background-size: 400% 400%;
-            animation: gradient 15s ease infinite;
-        }
-
-        .neural-node {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(243, 243, 243, 0.39);
-            box-shadow: 0 0 20px 5px rgba(20, 45, 96, 0.32);
-            transition: transform 0.1s ease-out;
-            pointer-events: none;
-        }
-
-        .neural-connection {
-            position: absolute;
-            background: rgba(0, 0, 0, 0.5);
-            height: 1px;
-            transform-origin: left center;
-            pointer-events: none;
-        }
-
-        #skills {
-            background-color: #f9fafb;
-        }
-
-        #skills h2, #skills .skill-badge span {
-            color: #1f2937;
-        }
-
-        #skills .skill-category h3 {
-            color: #2563eb;
-        }
-
-        #skills .skill-badge {
-            background-color: #ffffff;
-            border-color: #e5e7eb;
-        }
-
-        #skills .carousel-btn {
-            background-color: #ffffff;
-            border: 1px solid #e1e4e8;
-        }
-
-        #skills .carousel-btn i {
-            color: #1f2937;
-        }
-
-        .carousel-btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-        }
-
-        .carousel-indicator.active {
-            background-color: #2563eb;
-        }
-
-        /* Modo Escuro */
-        .dark #skills {
-            background-color: #111827;
-        }
-
-        .dark #skills h2, .dark #skills .skill-badge span {
-            color: #f3f4f6;
-        }
-
-        .dark #skills .skill-category h3 {
-            color: #60a5fa;
-        }
-
-        .dark #skills .skill-badge {
-            background-color: #1f2937;
-            border-color: #374151;
-        }
-
-        .dark #skills .carousel-btn {
-            background-color: #1f2937;
-            border-color: #374151;
-        }
-
-        .dark #skills .carousel-btn i {
-            color: #f9fafb;
-        }
-
-        .dark .carousel-indicator.active {
-            background-color: #60a5fa;
-        }
-
-
-        .pix-qr-code {
-            max-width: 200px;
-            margin: 0 auto;
-            display: block;
-        }
-
-        .message-box {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #4CAF50;
-            color: white;
-            padding: 15px 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
-        }
-
-        .message-box.show {
-            opacity: 1;
-            visibility: visible;
-        }
-
-
-        @keyframes gradient {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
-        }
-
-        .animated-bg {
-            animation: pulse 6s infinite;
-        }
-
-        @keyframes pulse {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
-        }
-
-
-        body.dark {
-            background-color: #1a202c;
-            color: #e2e8f0;
-        }
-
-        .dark .bg-white {
-            background-color: #2d3748;
-        }
-
-        .dark .bg-gray-50 {
-            background-color: #1a202c;
-        }
-
-        .dark .text-gray-800 {
-            color: #e2e8f0;
-        }
-
-        .dark .text-gray-600,
-        .dark .text-gray-700 {
-            color: #cbd5e0;
-        }
-
-        .dark .bg-gray-100 {
-            background-color: #2d3748;
-        }
-
-        .dark .bg-gray-200 {
-            background-color: #4a5568;
-        }
-
-        .dark .text-gray-500 {
-            color: #a0aec0;
-        }
-
-        .dark .shadow-sm {
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
-        }
-
-        .markdown-body {
-            background-color: rgb(247, 248, 249);
-            color: rgb(0, 0, 0);
-            border: 1px solid rgb(247, 248, 249);
-            border-radius: 8px;
-            padding: 25px;
-        }
-
-        .dark .markdown-body {
-            background-color: rgba(13, 17, 23, 0.56);
-            color: #c9d1d9;
-            border-color: #30363d;
-        }
-
-        .dark .markdown-body h1,
-        .dark .markdown-body h2,
-        .dark .markdown-body h3,
-        .dark .markdown-body h4,
-        .dark .markdown-body h5,
-        .dark .markdown-body h6 {
-            color: #c9d1d9;
-            border-bottom-color: #30363d;
-
-        .dark .markdown-body a {
-            color: #58a6ff;
-        }
-
-        .dark .markdown-body hr {
-            background-color: #30363d;
-        }
-
-        .dark .markdown-body strong {
-            color: #c9d1d9;
-        }
-
-        .animate-float {
-            animation: float 6s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0% {
-                transform: translateY(0px);
-            }
-            50% {
-                transform: translateY(-20px);
-            }
-            100% {
-                transform: translateY(0px);
-            }
-        }}
+        @keyframes float {0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)}}
+        @keyframes gradient {0%,100%{background-position:0 50%}50%{background-position:100% 50%}}
     </style>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Jaime Martins",
+      "jobTitle": "Desenvolvedor Back-End GenAI",
+      "url": "https://jaimemartins.tech",
+      "sameAs": ["https://github.com/JaimeMartinsOliveira", "https://www.linkedin.com/in/jaime-martins-de-oliveira/"]
+    }
+    </script>
 </head>
-<body class="bg-gray-50 text-gray-800">
-<nav class="fixed w-full bg-white shadow-sm z-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16 items-center">
-            <div class="flex items-center">
-                <a href="#" class="text-xl font-bold text-blue-600">Jaime Martins</a>
-            </div>
-            <div class="hidden md:flex items-center space-x-4 lg:space-x-8">
-                <a href="#sobre" class="nav-link text-gray-700 hover:text-blue-600">Sobre mim</a>
-                <a href="#experiencia" class="nav-link text-gray-700 hover:text-blue-600">Experiência</a>
-                <a href="#projetos" class="nav-link text-gray-700 hover:text-blue-600">Projetos</a>
-                <a href="#contato" class="nav-link text-gray-700 hover:text-blue-600">Contato</a>
-                <a href="/blog/"
-                   class="px-4 py-2 text-blue-600 border border-blue-600 rounded-md hover:bg-blue-50">Blog</a>
-                <button id="theme-toggle"
-                        class="p-2 text-gray-700 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-gray-200"
-                        aria-label="Alternar tema">
-                    <i id="theme-icon" class="fas fa-moon dark:hidden"></i>
-                    <i id="theme-icon-dark" class="fas fa-sun hidden dark:inline"></i>
-                </button>
-            </div>
-            <div class="md:hidden flex items-center">
-                <button id="mobile-menu-button" class="text-gray-700 hover:text-blue-600">
-                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                </button>
-            </div>
-        </div>
-    </div>
-    <div id="mobile-menu" class="hidden md:hidden bg-white shadow-md">
-        <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <a href="#sobre"
-               class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50">Sobre
-                mim</a>
-            <a href="#experiencia"
-               class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50">Experiência</a>
-            <a href="#projetos"
-               class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50">Projetos</a>
-            <a href="#contato"
-               class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50">Contato</a>
-            <a href="{% url 'blog:list' %}"
-               class="block px-3 py-2 rounded-md text-base font-medium text-blue-600 hover:bg-blue-50">Blog</a>
-            <button id="mobile-theme-toggle"
-                    class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-blue-50 dark:text-gray-200 dark:hover:bg-gray-700"
-                    aria-label="Alternar tema">
-                <i id="mobile-theme-icon" class="fas fa-moon mr-2 dark:hidden"></i>
-                <i id="mobile-theme-icon-dark" class="fas fa-sun mr-2 hidden dark:inline"></i> Alternar tema
-            </button>
-        </div>
-    </div>
-</nav>
 
-<section id="hero" class="hero-gradient text-white pt-20 pb-16 md:pt-32 md:pb-28">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex flex-col md:flex-row items-center">
-            <div class="md:w-1/2 mb-8 md:mb-0 md:pr-10" data-aos="fade-right" data-aos-delay="200">
-                <h1 class="text-4xl md:text-5xl font-bold mb-6 text-gray-800 dark:text-gray-100">
-                    {{ apresentacao.titulo }}
-                </h1>
-                <h2 class="text-2xl md:text-3xl font-medium mb-6 text-gray-800 dark:text-gray-100">
-                        <span class="block md:inline font-semibold bg-gradient-to-b from-indigo-600 to-purple-900 text-transparent bg-clip-text dark:text-blue-300">
-            {{ apresentacao.subtitulo }}
-                        </span>
-                </h2>
+<body class="bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 transition-colors duration-300">
 
-                <p class="text-lg mb-8 opacity-90">
-                    {{ apresentacao.descricao }}
-                </p>
-
-                <div class="flex space-x-4">
-                    {% if apresentacao.github %}
-                        <a href="{{ apresentacao.github }}"
-                           class="bg-white text-blue-600 px-6 py-2 rounded-md font-medium hover:bg-gray-100 transition duration-300 flex items-center">
-                            <i class="fab fa-github mr-2"></i> GitHub
-                        </a>
-                    {% endif %}
-                    {% if apresentacao.linkedin %}
-                        <a href="{{ apresentacao.linkedin }}"
-                           class="bg-transparent border border-white text-white px-6 py-2 rounded-md font-medium hover:bg-white hover:text-blue-600 transition duration-300 flex items-center">
-                            <i class="fab fa-linkedin-in mr-2"></i> LinkedIn
-                        </a>
-                    {% endif %}
-                    {% if apresentacao.curriculo %}
-                        <a href="{{ apresentacao.curriculo }}"
-                           class="bg-transparent border border-white text-white px-6 py-2 rounded-md font-medium hover:bg-white hover:text-blue-600 transition duration-300 flex items-center">
-                            <i class="fas fa-file-alt mr-2"></i> Currículo
-                        </a>
-                    {% endif %}
+    <nav class="fixed w-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm shadow-sm z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex-shrink-0"><a href="#" class="text-xl font-bold text-blue-600 dark:text-blue-400">Jaime Martins</a></div>
+                <div class="hidden md:flex items-center space-x-4 lg:space-x-8">
+                    <a href="#sobre" class="nav-link text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">Sobre mim</a>
+                    <a href="#experiencia" class="nav-link text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">Experiência</a>
+                    <a href="#projetos" class="nav-link text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">Projetos</a>
+                    <a href="#contato" class="nav-link text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">Contato</a>
+                    <a href="/blog/" class="px-4 py-2 text-blue-600 border border-blue-600 rounded-md hover:bg-blue-50 dark:text-blue-400 dark:border-blue-400 dark:hover:bg-gray-800">Blog</a>
+                    <button id="theme-toggle" class="p-2 text-gray-700 dark:text-gray-300 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800" aria-label="Alternar tema">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-button" aria-expanded="false" aria-controls="mobile-menu" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                    </button>
                 </div>
             </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-gray-900 shadow-md">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#sobre" class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Sobre mim</a>
+                <a href="#experiencia" class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Experiência</a>
+                <a href="#projetos" class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Projetos</a>
+                <a href="#contato" class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Contato</a>
+                <a href="/blog/" class="block px-3 py-2 rounded-md text-base font-medium text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-gray-800">Blog</a>
+            </div>
+        </div>
+    </nav>
 
-            <div class="md:w-1/2 flex justify-center mt-8 md:mt-0" data-aos="fade-left" data-aos-delay="400">
-                <div class="relative">
-                    <div class="w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 lg:w-80 lg:h-80 rounded-full overflow-hidden border-4 border-white shadow-xl animate-float">
-                        <img class="w-full h-full object-cover" src="{{ apresentacao.imagem.url }}"
-                             alt="Foto de perfil">
+    <section id="hero-container" class="pt-24 pb-20 md:pt-32 md:pb-28">
+        <div class="hero-gradient"></div>
+        <canvas id="neural-network-canvas"></canvas>
+        <div id="hero-content" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-8 md:mb-0 md:pr-10 text-center md:text-left" data-aos="fade-right" data-aos-delay="200">
+                    <h1 class="text-4xl sm:text-5xl font-bold mb-6 text-white">{{ apresentacao.titulo }}</h1>
+                    <h2 class="text-2xl sm:text-3xl font-medium mb-6 text-blue-300"><span class="block md:inline font-semibold">{{ apresentacao.subtitulo }}</span></h2>
+                    <p class="text-lg mb-8 text-gray-200 opacity-90">{{ apresentacao.descricao }}</p>
+                    <div class="flex flex-wrap gap-4 justify-center md:justify-start">
+                        {% if apresentacao.github %}<a href="{{ apresentacao.github }}" target="_blank" rel="noopener noreferrer" class="bg-white text-blue-600 px-6 py-3 rounded-md font-medium hover:bg-gray-200 transition duration-300 flex items-center shadow-lg"><i class="fab fa-github mr-2"></i> GitHub</a>{% endif %}
+                        {% if apresentacao.linkedin %}<a href="{{ apresentacao.linkedin }}" target="_blank" rel="noopener noreferrer" class="bg-blue-500 text-white px-6 py-3 rounded-md font-medium hover:bg-blue-600 transition duration-300 flex items-center shadow-lg"><i class="fab fa-linkedin-in mr-2"></i> LinkedIn</a>{% endif %}
+                        {% if apresentacao.curriculo %}<a href="{{ apresentacao.curriculo.url }}" target="_blank" rel="noopener noreferrer" class="bg-transparent border border-white text-white px-6 py-3 rounded-md font-medium hover:bg-white hover:text-blue-600 transition duration-300 flex items-center"><i class="fas fa-file-alt mr-2"></i> Currículo</a>{% endif %}
                     </div>
-
-                    <div class="absolute -bottom-2 -right-2 md:-bottom-4 md:-right-4 bg-blue-500 text-white px-3 py-1 md:px-4 md:py-2 rounded-full shadow-lg font-medium text-sm md:text-base">
-                        <i class="fas fa-code mr-1 md:mr-2"></i> Desenvolvedor
+                </div>
+                <div class="md:w-1/2 flex justify-center mt-12 md:mt-0" data-aos="fade-left" data-aos-delay="400">
+                    <div class="relative">
+                        <div class="w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 lg:w-80 lg:h-80 rounded-full overflow-hidden border-4 border-white/50 shadow-xl animate-float">
+                            <img class="w-full h-full object-cover" src="{{ apresentacao.imagem.url }}" loading="lazy" alt="Foto de perfil de Jaime Martins">
+                        </div>
+                        <div class="absolute -bottom-2 -right-2 md:-bottom-4 md:-right-4 bg-blue-500 text-white px-3 py-1 md:px-4 md:py-2 rounded-full shadow-lg font-medium text-sm md:text-base"><i class="fas fa-code mr-1 md:mr-2"></i> Desenvolvedor</div>
                     </div>
                 </div>
             </div>
-
         </div>
-    </div>
-</section>
+    </section>
 
-<section id="sobre" class="py-20 bg-white">
+  <!-- Seção Sobre -->
+  <section id="sobre" class="py-20 bg-white dark:bg-gray-900">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" data-aos="fade-up">
-        <div class="text-center mb-16">
-            <h2 class="text-3xl font-bold text-gray-800 mb-4">Sobre mim</h2>
-            <div class="w-20 h-1 bg-blue-600 mx-auto"></div>
-        </div>
-
-        <div class="flex flex-col md:flex-row items-start md:space-x-12">
-
-            <div class="md:w-1/2 mb-10 md:mb-0" data-aos="fade-right" data-aos-delay="200">
-                {% if sobre_mim %}
-                    <div id="markdown-content" class="markdown-body">
-                        {{ sobre_mim.conteudo_html|safe }}
-                    </div>
-                {% else %}
-                    <p class="text-gray-600 dark:text-gray-300">Informações sobre mim não disponíveis no momento.</p>
-                {% endif %}
+      <div class="text-center mb-16">
+        <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-100 mb-4">Sobre mim</h2>
+        <div class="w-20 h-1 bg-blue-600 mx-auto"></div>
+      </div>
+      <div class="flex flex-col md:flex-row items-start md:space-x-12">
+        <div class="md:w-1/2 mb-10 md:mb-0" data-aos="fade-right" data-aos-delay="200">
+          {% if sobre_mim %}
+            <div class="prose prose-neutral dark:prose-invert max-w-none">
+              {{ sobre_mim.conteudo_html|safe }}
             </div>
-
-            <div class="md:w-1/2" data-aos="fade-left" data-aos-delay="400">
-                <div class="bg-gray-50 p-5 sm:p-6 md:p-8 rounded-xl shadow-sm">
-                    <h3 class="text-xl font-semibold mb-6 text-gray-800">Formação Acadêmica</h3>
-                    <div class="space-y-6">
-                        {% for formacao in formacoes %}
-                            <div class="flex items-start mb-4">
-                                <div class="bg-blue-100 p-3 rounded-lg mr-4">
-                                    {% if formacao.imagem %}
-                                        <img src="{{ formacao.imagem.url }}" alt="{{ formacao.curso }}"
-                                             class="w-12 h-12 object-contain">
-                                    {% endif %}
-                                </div>
-                                <div>
-                                    <h4 class="font-semibold text-gray-800">{{ formacao.curso }}</h4>
-                                    <p class="text-gray-600">{{ formacao.instituicao }}{% if formacao.status %} -
-                                        {{ formacao.status }}{% endif %}</p>
-                                    <p class="text-gray-500 text-sm">{{ formacao.ano_conclusao }}</p>
-                                </div>
-                            </div>
-                        {% empty %}
-                            <p class="text-gray-500 dark:text-gray-400">Nenhuma formação acadêmica para exibir.</p>
-                        {% endfor %}
-                    </div>
+          {% else %}
+            <p class="text-gray-600 dark:text-gray-300">Informações sobre mim não disponíveis no momento.</p>
+          {% endif %}
+        </div>
+        <div class="md:w-1/2" data-aos="fade-left" data-aos-delay="400">
+          <div class="bg-gray-50 dark:bg-gray-800/50 p-5 sm:p-6 md:p-8 rounded-xl shadow-sm">
+            <h3 class="text-xl font-semibold mb-6 text-gray-800 dark:text-gray-100">Formação Acadêmica</h3>
+            <div class="space-y-6">
+              {% for formacao in formacoes %}
+                <div class="flex items-start mb-4">
+                  <div class="bg-blue-100 dark:bg-blue-900/50 p-3 rounded-lg mr-4">
+                    {% if formacao.imagem %}
+                      <img src="{{ formacao.imagem.url }}" alt="{{ formacao.curso }}" class="w-12 h-12 object-contain" loading="lazy">
+                    {% endif %}
+                  </div>
+                  <div>
+                    <h4 class="font-semibold text-gray-800 dark:text-gray-100">{{ formacao.curso }}</h4>
+                    <p class="text-gray-600 dark:text-gray-300">
+                      {{ formacao.instituicao }}{% if formacao.status %} - {{ formacao.status }}{% endif %}
+                    </p>
+                    <p class="text-gray-500 dark:text-gray-400 text-sm">{{ formacao.ano_conclusao }}</p>
+                  </div>
                 </div>
+              {% empty %}
+                <p class="text-gray-500 dark:text-gray-400">Nenhuma formação acadêmica para exibir.</p>
+              {% endfor %}
             </div>
-
+          </div>
         </div>
+      </div>
     </div>
-</section>
+  </section>
 
-<section id="skills" class="py-20 sm:py-32 overflow-hidden">
+<section id="skills" class="py-20 sm:py-32 overflow-hidden bg-gray-50 dark:bg-gray-800">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" data-aos="fade-up">
         <div class="text-center mb-16">
             <h2 class="text-3xl font-extrabold sm:text-4xl">
@@ -494,7 +201,6 @@
             </h2>
             <div class="w-20 h-1 bg-blue-600 mx-auto"></div>
         </div>
-
         {% if skills_by_category %}
             <div class="carousel-container relative">
                 <div class="carousel-track flex transition-transform duration-500 ease-in-out">
@@ -513,17 +219,15 @@
                         </div>
                     {% endfor %}
                 </div>
-
-                <button class="carousel-btn carousel-btn--left absolute top-1/2 left-0 md:-left-4 -translate-y-1/2 rounded-full w-10 h-10 flex items-center justify-center shadow-md transition"
+                <button class="carousel-btn carousel-btn--left absolute top-1/2 left-2 md:-left-4 -translate-y-1/2 rounded-full flex items-center justify-center shadow-md transition z-10"
                         aria-label="Anterior">
                     <i class="fas fa-chevron-left"></i>
                 </button>
-                <button class="carousel-btn carousel-btn--right absolute top-1/2 right-0 md:-right-4 -translate-y-1/2 rounded-full w-10 h-10 flex items-center justify-center shadow-md transition"
+                <button class="carousel-btn carousel-btn--right absolute top-1/2 right-2 md:-right-4 -translate-y-1/2 rounded-full flex items-center justify-center shadow-md transition z-10"
                         aria-label="Próximo">
                     <i class="fas fa-chevron-right"></i>
                 </button>
-
-                <div class="carousel-indicators flex justify-center mt-8 space-x-2">
+                <div class="carousel-indicators flex justify-center mt-12 space-x-2">
                     {% for category_name in skills_by_category %}
                         <button class="carousel-indicator w-3 h-3 rounded-full bg-gray-300 dark:bg-gray-600 transition"
                                 aria-label="Slide {{ forloop.counter }}"></button>
@@ -536,519 +240,305 @@
     </div>
 </section>
 
-<section id="experiencia" class="py-20 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" data-aos="fade-up">
-        <div class="text-center mb-16">
-            <h2 class="text-3xl font-bold text-gray-800 mb-4">Experiência</h2>
-            <div class="w-20 h-1 bg-blue-600 mx-auto"></div>
-        </div>
-
-        <div class="space-y-8">
-            {% for exp in experiences %}
-                <div class="experience-card bg-gray-50 p-8 rounded-lg border-l-4 border-blue-500 shadow-sm"
-                     data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
-                    <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-4">
-                        <h3 class="text-xl font-semibold text-gray-800 mb-2 md:mb-0">{{ exp.titulo }}</h3>
-                        {% if exp.empresa %}
-                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">{{ exp.empresa }}</span>
-                        {% endif %}
-                    </div>
-
-                    {% if exp.periodo %}
-                        <p class="text-sm font-medium text-gray-500 mb-4">{{ exp.periodo }}</p>
-                    {% endif %}
-
-                    <div class="markdown-body experience-description">
-                        {{ exp.descricao_html|safe }}
-                    </div>
-
-                    {% if exp.tecnologias.all %}
-                        <div class="flex flex-wrap gap-2">
-                            {% for tech in exp.tecnologias.all %}
-                                <span class="bg-gray-200 text-gray-800 px-3 py-1 rounded-full text-xs font-medium"
-                                      title="{{ tech.descricao|default:'' }}">
-                            {{ tech.nome }}
-                        </span>
-                            {% endfor %}
-                        </div>
-                    {% endif %}
-
-                    {% if exp.link %}
-                        <div class="mt-4">
-                            <a href="{{ exp.link }}" target="_blank" rel="noopener noreferrer"
-                               class="text-blue-600 hover:text-blue-800 font-medium inline-flex items-center">
-                                Ver mais detalhes <i class="fas fa-external-link-alt ml-2"></i>
-                            </a>
-                        </div>
-                    {% endif %}
-                </div>
-            {% endfor %}
-        </div>
-
+<section id="experiencia" class="py-20 bg-white dark:bg-gray-900">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" data-aos="fade-up">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-100 mb-4">Experiência</h2>
+      <div class="w-20 h-1 bg-blue-600 mx-auto"></div>
     </div>
+    <div class="space-y-8">
+      {% for exp in experiences %}
+        <div class="experience-card bg-gray-50 dark:bg-gray-800 p-6 md:p-8 rounded-lg border-l-4 border-blue-500 shadow-sm" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
+          <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-4">
+            <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-2 md:mb-0">{{ exp.titulo }}</h3>
+            {% if exp.empresa %}
+              <span class="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-3 py-1 rounded-full text-sm font-medium self-start mt-2 md:mt-0">{{ exp.empresa }}</span>
+            {% endif %}
+          </div>
+          {% if exp.periodo %}
+            <p class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">{{ exp.periodo }}</p>
+          {% endif %}
+          <div class="prose prose-neutral dark:prose-invert max-w-none experience-description">
+            {{ exp.descricao_html|safe }}
+          </div>
+          {% if exp.tecnologias.all %}
+            <div class="flex flex-wrap gap-2 mt-4">
+              {% for tech in exp.tecnologias.all %}
+                <span class="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100 px-3 py-1 rounded-full text-xs font-medium" title="{{ tech.descricao|default:'' }}">
+                  {{ tech.nome }}
+                </span>
+              {% endfor %}
+            </div>
+          {% endif %}
+          {% if exp.link %}
+            <div class="mt-4">
+              <a href="{{ exp.link }}" target="_blank" rel="noopener noreferrer" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium inline-flex items-center">
+                Ver mais detalhes <i class="fas fa-external-link-alt ml-2"></i>
+              </a>
+            </div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
 </section>
 
-<section id="projetos" class="py-20 bg-gray-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" data-aos="fade-up">
-        <div class="text-center mb-16">
-            <h2 class="text-3xl font-bold text-gray-800 mb-4">Projetos</h2>
-            <div class="w-20 h-1 bg-blue-600 mx-auto"></div>
-        </div>
+<section id="projetos" class="py-20 bg-gray-50 dark:bg-gray-800">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" data-aos="fade-up">
 
-        {% if projetos|length > 3 %}
-            <div class="swiper">
-                <div class="swiper-wrapper pb-16">
-                    {% for projeto in projetos %}
-                        <div class="swiper-slide h-auto">
-                            <div class="project-card bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition duration-300 flex flex-col h-full">
-                                <div class="h-48 overflow-hidden">
-                                    {% if projeto.imagem %}
-                                        <img src="{{ projeto.imagem.url }}" alt="Imagem do projeto {{ projeto.titulo }}"
-                                             class="w-full h-full object-cover">
-                                    {% endif %}
-                                </div>
-                                <div class="p-6 flex flex-col flex-grow">
-                                    <h3 class="text-xl font-semibold text-gray-800 mb-2">{{ projeto.titulo }}</h3>
-                                    <p class="text-gray-600 mb-4 flex-grow project-description">{{ projeto.descricao }}</p>
-                                    <div class="flex flex-wrap gap-2 mb-4">
-                                        {% for tech in projeto.tecnologias.all %}
-                                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">{{ tech.nome }}</span>
-                                        {% endfor %}
-                                    </div>
-                                    {% if projeto.link %}
-                                        <a href="{{ projeto.link }}"
-                                           class="text-blue-600 hover:text-blue-800 font-medium inline-flex items-center mt-auto">
-                                            Ver Projeto <i class="fas fa-arrow-right ml-2"></i>
-                                        </a>
-                                    {% endif %}
-                                </div>
-                            </div>
-                        </div>
+    <!-- Título -->
+    <div class="text-center mb-16">
+      <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-100 mb-4">Projetos</h2>
+      <div class="w-20 h-1 bg-blue-600 mx-auto"></div>
+    </div>
+
+    {% if projetos|length > 3 %}
+      <!-- Swiper com muitos projetos -->
+      <div class="swiper">
+        <div class="swiper-wrapper pb-16">
+          {% for projeto in projetos %}
+            <div class="swiper-slide h-auto">
+              <div class="project-card bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-xl hover:shadow-2xl transition duration-300 flex flex-col h-full border border-gray-200 dark:border-gray-700">
+
+                <!-- Imagem -->
+                <div class="h-48 overflow-hidden">
+                  {% if projeto.imagem %}
+                    <img src="{{ projeto.imagem.url }}" alt="Imagem do projeto {{ projeto.titulo }}" class="w-full h-full object-cover">
+                  {% endif %}
+                </div>
+
+                <!-- Conteúdo -->
+                <div class="p-6 flex flex-col flex-grow">
+                  <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-2">{{ projeto.titulo }}</h3>
+                  <p class="text-gray-600 dark:text-gray-300 mb-4 flex-grow project-description">{{ projeto.descricao }}</p>
+
+                  <!-- Tecnologias -->
+                  <div class="flex flex-wrap gap-2 mb-4">
+                    {% for tech in projeto.tecnologias.all %}
+                      <span class="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-1 rounded text-xs">{{ tech.nome }}</span>
                     {% endfor %}
+                  </div>
+
+                  <!-- Link -->
+                  {% if projeto.link %}
+                    <a href="{{ projeto.link }}" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium inline-flex items-center mt-auto">
+                      Ver Projeto <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                  {% endif %}
                 </div>
-                <div class="swiper-button-next text-blue-600"></div>
-                <div class="swiper-button-prev text-blue-600"></div>
-                <div class="swiper-pagination"></div>
+
+              </div>
             </div>
-        {% else %}
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {% for projeto in projetos %}
-                    <div class="project-card bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition duration-300 flex flex-col"
-                         data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
-                        <div class="h-48 overflow-hidden">
-                            {% if projeto.imagem %}
-                                <img src="{{ projeto.imagem.url }}" alt="Imagem do projeto {{ projeto.titulo }}"
-                                     class="w-full h-full object-cover">
-                            {% endif %}
-                        </div>
-                        <div class="p-6 flex flex-col flex-grow">
-                            <h3 class="text-xl font-semibold text-gray-800 mb-2">{{ projeto.titulo }}</h3>
-                            <p class="text-gray-600 mb-4 flex-grow project-description">{{ projeto.descricao }}</p>
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                {% for tech in projeto.tecnologias.all %}
-                                    <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">{{ tech.nome }}</span>
-                                {% endfor %}
-                            </div>
-                            {% if projeto.link %}
-                                <a href="{{ projeto.link }}"
-                                   class="text-blue-600 hover:text-blue-800 font-medium inline-flex items-center mt-auto">
-                                    Ver Projeto <i class="fas fa-arrow-right ml-2"></i>
-                                </a>
-                            {% endif %}
-                        </div>
-                    </div>
+          {% endfor %}
+        </div>
+
+        <!-- Controles do Swiper -->
+        <div class="swiper-button-next text-blue-600 dark:text-blue-400"></div>
+        <div class="swiper-button-prev text-blue-600 dark:text-blue-400"></div>
+        <div class="swiper-pagination"></div>
+      </div>
+
+    {% else %}
+      <!-- Grid para poucos projetos -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {% for projeto in projetos %}
+          <div class="project-card bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-xl hover:shadow-2xl transition duration-300 flex flex-col border border-gray-200 dark:border-gray-700" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
+
+            <!-- Imagem -->
+            <div class="h-48 overflow-hidden">
+              {% if projeto.imagem %}
+                <img src="{{ projeto.imagem.url }}" alt="Imagem do projeto {{ projeto.titulo }}" class="w-full h-full object-cover">
+              {% endif %}
+            </div>
+
+            <!-- Conteúdo -->
+            <div class="p-6 flex flex-col flex-grow">
+              <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-2">{{ projeto.titulo }}</h3>
+              <p class="text-gray-600 dark:text-gray-300 mb-4 flex-grow project-description">{{ projeto.descricao }}</p>
+
+              <!-- Tecnologias -->
+              <div class="flex flex-wrap gap-2 mb-4">
+                {% for tech in projeto.tecnologias.all %}
+                  <span class="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-1 rounded text-xs">{{ tech.nome }}</span>
                 {% endfor %}
+              </div>
+
+              <!-- Link -->
+              {% if projeto.link %}
+                <a href="{{ projeto.link }}" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium inline-flex items-center mt-auto">
+                  Ver Projeto <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+              {% endif %}
             </div>
-        {% endif %}
 
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
 
-    </div>
+  </div>
 </section>
 
-<section id="contato" class="py-20 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" data-aos="fade-up">
-        <div class="text-center mb-16">
-            <h2 class="text-3xl font-bold text-gray-800 mb-4">Contato</h2>
-            <div class="w-20 h-1 bg-blue-600 mx-auto"></div>
-        </div>
+<section id="contato" class="py-20 bg-white dark:bg-gray-900">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" data-aos="fade-up">
 
-        <div class="flex flex-col md:flex-row">
-            <div class="md:w-1/2 mb-10 md:mb-0 md:pr-10" data-aos="fade-right">
-                <h3 class="text-2xl font-semibold text-gray-800 mb-4">Manda-me uma mensagem!</h3>
-                <p class="text-gray-600 mb-6">
-                    Tem uma pergunta ou proposta, ou apenas quer dizer "olá"? Vá em frente. Estou sempre aberto a
-                    discutir novos projetos,
-                    ideias criativas ou oportunidades para fazer parte de sua visão.
-                </p>
-
-                <div class="space-y-4">
-                    <div class="flex items-start">
-                        <div class="bg-blue-100 p-3 rounded-lg mr-4">
-                            <i class="fas fa-envelope text-blue-600"></i>
-                        </div>
-                        <div>
-                            <h4 class="font-semibold text-gray-800">E-mail</h4>
-                            <a href="mailto:contato.jaimemartins@gmail.com" class="text-blue-600 hover:text-blue-800">contato.jaimemartins@gmail.com</a>
-                        </div>
-                    </div>
-
-                    <div class="flex items-start">
-                        <div class="bg-blue-100 p-3 rounded-lg mr-4">
-                            <i class="fab fa-whatsapp text-blue-600"></i>
-                        </div>
-                        <div>
-                            <h4 class="font-semibold text-gray-800">WhatsApp</h4>
-                            <a href="https://wa.me/5548996354498" class="text-blue-600 hover:text-blue-800">+55 (48)
-                                99635-4498</a>
-                        </div>
-                    </div>
-
-                    <div class="flex items-start">
-                        <div class="bg-blue-100 p-3 rounded-lg mr-4">
-                            <i class="fab fa-linkedin-in text-blue-600"></i>
-                        </div>
-                        <div>
-                            <h4 class="font-semibold text-gray-800">LinkedIn</h4>
-                            <a href="https://www.linkedin.com/in/jaime-martins-de-oliveira/"
-                               class="text-blue-600 hover:text-blue-800">linkedin.com/in/jaime-martins-de-oliveira</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="md:w-1/2" data-aos="fade-left">
-                {#                <div class="bg-gray-50 p-6 rounded-xl shadow-sm mb-6">#}
-                {#                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Apoie meu trabalho via PIX</h3>#}
-                {#                    <div class="text-center mb-4">#}
-                {#                        <img src="https://jaimemartins.tech/media/pix-qrcode.png" alt="QR Code PIX"#}
-                {#                             class="pix-qr-code mx-auto mb-3">#}
-                {#                    </div>#}
-                {#                    <div class="bg-gray-100 p-3 rounded-lg mb-4 flex justify-between items-center">#}
-                {#                        <span class="text-gray-800 font-medium truncate">contato.jaimemartins@gmail.com</span>#}
-                {#                        <button onclick="copyPixKey()"#}
-                {#                                class="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700 transition">#}
-                {#                            Copiar#}
-                {#                        </button>#}
-                {#                    </div>#}
-                {#                    <p class="text-gray-600 text-sm">Todo apoio é bem-vindo! Ao doar, você me ajuda a criar mais#}
-                {#                        conteúdo de qualidade.</p>#}
-                {#                </div>#}
-
-                <form class="bg-gray-50 p-8 rounded-xl shadow-sm">
-                    <div class="mb-6">
-                        <label for="name" class="block text-gray-700 font-medium mb-2">Seu nome</label>
-                        <input type="text" id="name"
-                               class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                               placeholder="Digite seu nome">
-                    </div>
-
-                    <div class="mb-6">
-                        <label for="email" class="block text-gray-700 font-medium mb-2">Endereço de E-mail</label>
-                        <input type="email" id="email"
-                               class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                               placeholder="seu.email@exemplo.com">
-                    </div>
-
-                    <div class="mb-6">
-                        <label for="message" class="block text-gray-700 font-medium mb-2">Mensagem</label>
-                        <textarea id="message" rows="4"
-                                  class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                  placeholder="Escreva sua mensagem aqui..."></textarea>
-                    </div>
-
-                    <button type="submit"
-                            class="w-full bg-blue-600 text-white px-6 py-3 rounded-md font-medium hover:bg-blue-700 transition duration-300 flex justify-center items-center">
-                        <i class="fas fa-paper-plane mr-2"></i> Enviar Mensagem
-                    </button>
-                    <div id="contact-message" class="message-box mt-4"></div>
-                </form>
-            </div>
-        </div>
+    <!-- Título -->
+    <div class="text-center mb-16">
+      <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-100 mb-4">Contato</h2>
+      <div class="w-20 h-1 bg-blue-600 mx-auto"></div>
     </div>
+
+    <!-- Conteúdo -->
+    <div class="flex flex-col md:flex-row gap-12">
+
+      <!-- Informações de Contato -->
+      <div class="md:w-1/2" data-aos="fade-right">
+        <h3 class="text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-4">Mande-me uma mensagem!</h3>
+        <p class="text-gray-600 dark:text-gray-300 mb-6">
+          Tem uma pergunta ou proposta, ou apenas quer dizer "olá"? Vá em frente. Estou sempre aberto a discutir novos projetos, ideias criativas ou oportunidades para fazer parte de sua visão.
+        </p>
+
+        <div class="space-y-4">
+          <!-- E-mail -->
+          <div class="flex items-start">
+            <div class="bg-blue-100 dark:bg-blue-900 p-3 rounded-lg mr-4 flex-shrink-0">
+              <i class="fas fa-envelope text-blue-600 dark:text-blue-300"></i>
+            </div>
+            <div>
+              <h4 class="font-semibold text-gray-800 dark:text-gray-100">E-mail</h4>
+              <a href="mailto:contato.jaimemartins@gmail.com" class="text-blue-600 hover:text-blue-800 dark:hover:text-blue-300 break-all">
+                contato.jaimemartins@gmail.com
+              </a>
+            </div>
+          </div>
+
+          <!-- WhatsApp -->
+          <div class="flex items-start">
+            <div class="bg-blue-100 dark:bg-blue-900 p-3 rounded-lg mr-4 flex-shrink-0">
+              <i class="fab fa-whatsapp text-blue-600 dark:text-blue-300"></i>
+            </div>
+            <div>
+              <h4 class="font-semibold text-gray-800 dark:text-gray-100">WhatsApp</h4>
+              <a href="https://wa.me/5548996354498" class="text-blue-600 hover:text-blue-800 dark:hover:text-blue-300">
+                +55 (48) 99635-4498
+              </a>
+            </div>
+          </div>
+
+          <!-- LinkedIn -->
+          <div class="flex items-start">
+            <div class="bg-blue-100 dark:bg-blue-900 p-3 rounded-lg mr-4 flex-shrink-0">
+              <i class="fab fa-linkedin-in text-blue-600 dark:text-blue-300"></i>
+            </div>
+            <div>
+              <h4 class="font-semibold text-gray-800 dark:text-gray-100">LinkedIn</h4>
+              <a href="https://www.linkedin.com/in/jaime-martins-de-oliveira/" class="text-blue-600 hover:text-blue-800 dark:hover:text-blue-300 break-all">
+                linkedin.com/in/jaime-martins-de-oliveira
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Formulário de Contato -->
+      <div class="md:w-1/2" data-aos="fade-left">
+        <form class="bg-gray-50 dark:bg-gray-800 p-8 rounded-xl shadow-sm">
+
+          <!-- Nome -->
+          <div class="mb-6">
+            <label for="name" class="block text-gray-700 dark:text-gray-200 font-medium mb-2">Seu nome</label>
+            <input type="text" id="name" placeholder="Digite seu nome"
+                   class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+          </div>
+
+          <!-- E-mail -->
+          <div class="mb-6">
+            <label for="email" class="block text-gray-700 dark:text-gray-200 font-medium mb-2">Endereço de E-mail</label>
+            <input type="email" id="email" placeholder="seu.email@exemplo.com"
+                   class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+          </div>
+
+          <!-- Mensagem -->
+          <div class="mb-6">
+            <label for="message" class="block text-gray-700 dark:text-gray-200 font-medium mb-2">Mensagem</label>
+            <textarea id="message" rows="4" placeholder="Escreva sua mensagem aqui..."
+                      class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"></textarea>
+          </div>
+
+          <!-- Botão -->
+          <button type="submit" class="w-full bg-blue-600 text-white px-6 py-3 rounded-md font-medium hover:bg-blue-700 transition duration-300 flex justify-center items-center">
+            <i class="fas fa-paper-plane mr-2"></i> Enviar Mensagem
+          </button>
+
+          <!-- Mensagem de retorno -->
+          <div id="contact-message" class="message-box mt-4"></div>
+
+        </form>
+      </div>
+
+    </div>
+  </div>
 </section>
 
 <footer class="bg-gray-800 text-white py-8">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex flex-col md:flex-row justify-between items-center">
+        <div class="flex flex-col md:flex-row justify-between items-center text-center md:text-left">
             <div class="mb-4 md:mb-0">
                 <p class="text-gray-400">© 2025 - Design and Code by Jaime Martins.</p>
-                <p class="text-gray-400 text-sm mt-1">Visitas: <span id="visitor-count">{{ total_visitors }}</span></p>
+                <p class="text-gray-400 text-sm mt-1">Visitas:
+                    <span id="visitor-count">{{ total_visitors }}</span>
+                </p>
             </div>
             <div class="flex space-x-6">
-                <a href="https://www.linkedin.com/in/jaime-martins-de-oliveira/"
-                   class="text-gray-400 hover:text-white transition duration-300">
-                    <i class="fab fa-linkedin-in text-xl"></i>
-                </a>
-                <a href="https://wa.me/5548996354498" class="text-gray-400 hover:text-white transition duration-300">
-                    <i class="fab fa-whatsapp text-xl"></i>
-                </a>
-                <a href="mailto:contato.jaimemartins@gmail.com"
-                   class="text-gray-400 hover:text-white transition duration-300">
-                    <i class="fas fa-envelope text-xl"></i>
-                </a>
-                <a href="https://github.com/JaimeMartinsOliveira"
-                   class="text-gray-400 hover:text-white transition duration-300">
-                    <i class="fab fa-github text-xl"></i>
-                </a>
+                <a href="https://www.linkedin.com/in/jaime-martins-de-oliveira/" class="text-gray-400 hover:text-white transition duration-300"><i class="fab fa-linkedin-in text-xl"></i></a>
+                <a href="https://wa.me/5548996354498" class="text-gray-400 hover:text-white transition duration-300"><i class="fab fa-whatsapp text-xl"></i></a>
+                <a href="mailto:contato.jaimemartins@gmail.com" class="text-gray-400 hover:text-white transition duration-300"><i class="fas fa-envelope text-xl"></i></a>
+                <a href="https://github.com/JaimeMartinsOliveira" class="text-gray-400 hover:text-white transition duration-300"><i class="fab fa-github text-xl"></i></a>
             </div>
         </div>
     </div>
 </footer>
 
-<button id="back-to-top"
-        class="fixed bottom-8 right-8 bg-blue-600 text-white p-3 rounded-full shadow-lg opacity-0 invisible transition-all duration-300">
+<button id="back-to-top" class="fixed bottom-8 right-8 bg-blue-600 text-white p-3 rounded-full shadow-lg opacity-0 invisible transition-all duration-300 z-50">
     <i class="fas fa-arrow-up"></i>
 </button>
 
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
 
-<script>
-    function createNeuralNetwork() {
-        const hero = document.getElementById('hero');
-        const nodes = [];
-        const connections = [];
-
-        for (let i = 0; i < 20; i++) {
-            const node = document.createElement('div');
-            node.className = 'neural-node';
-            const size = Math.random() * 8 + 4;
-            node.style.width = `${size}px`;
-            node.style.height = `${size}px`;
-
-            node.style.left = `${Math.random() * 100}%`;
-            node.style.top = `${Math.random() * 100}%`;
-
-            hero.appendChild(node);
-            nodes.push({
-                element: node,
-                baseX: parseFloat(node.style.left),
-                baseY: parseFloat(node.style.top),
-                speed: Math.random() * 0.4 + 0.1
-            });
-        }
-
-        for (let i = 0; i < nodes.length; i++) {
-            for (let j = i + 1; j < nodes.length; j++) {
-                if (Math.random() > 0.85) {
-                    const line = document.createElement('div');
-                    line.className = 'neural-connection';
-                    hero.appendChild(line);
-                    connections.push({
-                        element: line,
-                        node1: nodes[i],
-                        node2: nodes[j]
-                    });
-                }
-            }
-        }
-
-        let mouseX = 0;
-        let mouseY = 0;
-
-        hero.addEventListener('mousemove', (e) => {
-            mouseX = (e.clientX / window.innerWidth) * 100;
-            mouseY = (e.clientY / window.innerHeight) * 100;
-        });
-
-        function animate() {
-            nodes.forEach(node => {
-                const distX = mouseX - node.baseX;
-                const distY = mouseY - node.baseY;
-
-                const newX = node.baseX + (distX * node.speed * 0.03);
-                const newY = node.baseY + (distY * node.speed * 0.03);
-
-                node.element.style.left = `${newX}%`;
-                node.element.style.top = `${newY}%`;
-            });
-
-            connections.forEach(conn => {
-                const node1 = conn.node1.element;
-                const node2 = conn.node2.element;
-
-                const x1 = parseFloat(node1.style.left) + (parseFloat(node1.style.width) / 2);
-                const y1 = parseFloat(node1.style.top) + (parseFloat(node1.style.height) / 2);
-                const x2 = parseFloat(node2.style.left) + (parseFloat(node2.style.width) / 2);
-                const y2 = parseFloat(node2.style.top) + (parseFloat(node2.style.height) / 2);
-
-                const length = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-                const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
-
-                conn.element.style.width = `${length}%`;
-                conn.element.style.left = `${x1}%`;
-                conn.element.style.top = `${y1}%`;
-                conn.element.style.transform = `rotate(${angle}deg)`;
-
-                const opacity = Math.min(0.2, 20 / length);
-                conn.element.style.opacity = opacity;
-            });
-
-            requestAnimationFrame(animate);
-        }
-
-        animate();
-    }
-
-    document.addEventListener('DOMContentLoaded', createNeuralNetwork);
-
-    const themeToggle = document.getElementById('theme-toggle');
-    const mobileThemeToggle = document.getElementById('mobile-theme-toggle');
-    const themeIcon = document.getElementById('theme-icon');
-    const mobileThemeIcon = document.getElementById('mobile-theme-icon');
-    const html = document.documentElement;
-
-    const savedTheme = localStorage.getItem('theme') ||
-        (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-
-    if (savedTheme === 'dark') {
-        html.classList.add('dark');
-        themeIcon.classList.replace('fa-moon', 'fa-sun');
-        mobileThemeIcon.classList.replace('fa-moon', 'fa-sun');
-    }
-
-    function toggleTheme() {
-        html.classList.toggle('dark');
-        const isDark = html.classList.contains('dark');
-        localStorage.setItem('theme', isDark ? 'dark' : 'light');
-
-        if (isDark) {
-            themeIcon.classList.replace('fa-moon', 'fa-sun');
-            mobileThemeIcon.classList.replace('fa-moon', 'fa-sun');
-        } else {
-            themeIcon.classList.replace('fa-sun', 'fa-moon');
-            mobileThemeIcon.classList.replace('fa-sun', 'fa-moon');
-        }
-    }
-
-    themeToggle.addEventListener('click', toggleTheme);
-    mobileThemeToggle.addEventListener('click', toggleTheme);
-
-    const mobileMenuButton = document.getElementById('mobile-menu-button');
-    const mobileMenu = document.getElementById('mobile-menu');
-
-    mobileMenuButton.addEventListener('click', () => {
-        mobileMenu.classList.toggle('hidden');
-    });
-
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-
-            document.querySelector(this.getAttribute('href')).scrollIntoView({
-                behavior: 'smooth'
-            });
-
-            mobileMenu.classList.add('hidden');
-        });
-    });
-
-    const backToTopButton = document.getElementById('back-to-top');
-
-    window.addEventListener('scroll', () => {
-        if (window.pageYOffset > 300) {
-            backToTopButton.classList.remove('opacity-0', 'invisible');
-            backToTopButton.classList.add('opacity-100', 'visible');
-        } else {
-            backToTopButton.classList.remove('opacity-100', 'visible');
-            backToTopButton.classList.add('opacity-0', 'invisible');
-        }
-    });
-
-    backToTopButton.addEventListener('click', () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    });
-
-    function showMessage(message, type = 'success') {
-        const messageBox = document.getElementById('contact-message');
-        messageBox.textContent = message;
-        messageBox.className = `message-box show bg-${type === 'success' ? 'green' : 'red'}-600`;
-        setTimeout(() => {
-            messageBox.classList.remove('show');
-        }, 3000);
-    }
-
-
-    function copyPixKey() {
-        const pixKey = 'contato.jaimemartins@gmail.com';
-        const tempInput = document.createElement('textarea');
-        tempInput.value = pixKey;
-        document.body.appendChild(tempInput);
-        tempInput.select();
-        try {
-            document.execCommand('copy');
-            const button = event.target;
-            const originalText = button.textContent;
-            button.textContent = 'Copiado!';
-            button.classList.remove('bg-blue-600');
-            button.classList.add('bg-green-600');
-
-            setTimeout(() => {
-                button.textContent = originalText;
-                button.classList.remove('bg-green-600');
-                button.classList.add('bg-blue-600');
-            }, 2000);
-        } catch (err) {
-            console.error('Falha ao copiar texto:', err);
-            showMessage('Não foi possível copiar a chave PIX. Por favor, copie manualmente: ' + pixKey, 'error');
-        } finally {
-            document.body.removeChild(tempInput);
-        }
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        registerVisit();
-        document.getElementById('view-counter').textContent = localViewCount;
-    });
-
-    const contactForm = document.querySelector('form');
-    if (contactForm) {
-        contactForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            setTimeout(() => {
-                showMessage('Obrigado pela sua mensagem! Em breve entrarei em contato.');
-                contactForm.reset();
-            }, 500);
-        });
-    }
-</script>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-
-        AOS.init({
-            duration: 800,
-            once: true,
-            offset: 100,
-        });
 
         function setupReadMore(containerSelector, charLimit) {
             document.querySelectorAll(containerSelector).forEach(container => {
+                // Usamos textContent para obter o texto puro, sem HTML, para a contagem de caracteres
                 const fullText = container.innerHTML;
                 const textContent = container.textContent || container.innerText;
 
                 if (textContent.length > charLimit) {
+                    // Guarda o texto completo e o texto truncado em atributos de dados
                     container.setAttribute('data-fulltext', fullText);
                     const truncatedText = textContent.substring(0, charLimit) + '...';
-                    container.innerHTML = truncatedText;
+                    container.innerHTML = truncatedText; // Exibe o texto truncado inicialmente
 
+                    // Cria o botão "Ler mais"
                     const readMoreBtn = document.createElement('a');
                     readMoreBtn.className = 'read-more-btn';
                     readMoreBtn.textContent = 'Ler mais';
                     container.parentNode.insertBefore(readMoreBtn, container.nextSibling);
 
+                    // Adiciona o evento de clique ao botão
                     readMoreBtn.addEventListener('click', (e) => {
                         e.preventDefault();
                         const isExpanded = container.classList.contains('expanded');
 
                         if (isExpanded) {
+                            // Recolhe o texto
                             const truncated = textContent.substring(0, charLimit) + '...';
                             container.innerHTML = truncated;
                             readMoreBtn.textContent = 'Ler mais';
                             container.classList.remove('expanded');
                         } else {
+                            // Expande o texto
                             container.innerHTML = container.getAttribute('data-fulltext');
                             readMoreBtn.textContent = 'Ler menos';
                             container.classList.add('expanded');
@@ -1058,13 +548,15 @@
             });
         }
 
-        setupReadMore('.project-description', 300);
-        setupReadMore('.experience-description', 350);
+        // Aplica a função de "Ler mais" às descrições de projetos e experiências
+        setupReadMore('.project-description', 150);
+        setupReadMore('.experience-description', 250); // Limite maior para experiência
 
 
+        // Inicialização do Swiper (Carrossel de Projetos)
         const swiper = new Swiper('.swiper', {
-            slidesPerView: 1,
-            spaceBetween: 20,
+            slidesPerView: 1, // 1 slide visível em telas pequenas
+            spaceBetween: 20, // Espaço entre os slides
             navigation: {
                 nextEl: '.swiper-button-next',
                 prevEl: '.swiper-button-prev',
@@ -1074,71 +566,187 @@
                 clickable: true,
             },
             breakpoints: {
-                768: {slidesPerView: 2},
-                1024: {slidesPerView: 3},
+                768: { slidesPerView: 2 }, // 2 slides em tablets
+                1024: { slidesPerView: 3 }, // 3 slides em desktops
             },
+            // 6. Evento para minimizar texto ao trocar de slide
             on: {
                 slideChange: function () {
+                    // Procura por todos os botões "Ler menos" dentro do carrossel
                     document.querySelectorAll('.swiper-slide .read-more-btn').forEach(btn => {
                         if (btn.textContent === 'Ler menos') {
-                            btn.click();
+                           // Simula um clique para recolher o texto
+                           btn.click();
                         }
                     });
                 }
             }
-        });
+
     });
 
-    const track = document.querySelector('.carousel-track');
-    if (track) {
-        const items = document.querySelectorAll('.skill-category');
-        const btnPrev = document.querySelector('.carousel-btn--left');
-        const btnNext = document.querySelector('.carousel-btn--right');
-        const indicators = document.querySelectorAll('.carousel-indicator');
-        let currentIndex = 0;
-        const totalSlides = items.length;
-        let autoRotateTimeout;
 
-        if (totalSlides > 0) {
-            function updateCarousel() {
-                track.style.transform = `translateX(-${currentIndex * 100}%)`;
-                indicators.forEach((indicator, i) => {
-                    indicator.classList.toggle('bg-blue-600', i === currentIndex);
-                    indicator.classList.toggle('dark:bg-blue-400', i === currentIndex);
-                });
-                btnPrev.disabled = currentIndex === 0;
-                btnNext.disabled = currentIndex === totalSlides - 1;
-                clearTimeout(autoRotateTimeout);
-                autoRotateTimeout = setTimeout(() => {
-                    currentIndex = (currentIndex + 1) % totalSlides;
-                    updateCarousel();
-                }, 5000);
+        document.addEventListener('DOMContentLoaded', function () {
+
+            // --- 1. Animação da Rede Neural ---
+            function createNeuralNetwork() {
+                const canvas = document.getElementById('neural-network-canvas');
+                if (!canvas) return;
+                const ctx = canvas.getContext('2d');
+                let nodes = [];
+
+                function resizeCanvas() {
+                    canvas.width = canvas.offsetWidth;
+                    canvas.height = canvas.offsetHeight;
+                }
+
+                class Node {
+                    constructor(x, y) { this.x = x; this.y = y; this.vx = Math.random()*0.4-0.2; this.vy = Math.random()*0.4-0.2; this.radius = Math.random()*1.5+1; }
+                    update() { this.x += this.vx; this.y += this.vy; if (this.x < 0 || this.x > canvas.width) this.vx *= -1; if (this.y < 0 || this.y > canvas.height) this.vy *= -1; }
+                    draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2); ctx.fillStyle = 'rgba(147, 197, 253, 0.8)'; ctx.fill(); }
+                }
+
+                function init() {
+                    resizeCanvas();
+                    const NODE_COUNT = window.innerWidth < 768 ? 40 : 80;
+                    nodes = Array.from({ length: NODE_COUNT }, () => new Node(Math.random() * canvas.width, Math.random() * canvas.height));
+                }
+
+                function animate() {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    nodes.forEach(node => { node.update(); node.draw(); });
+                    for (let i = 0; i < nodes.length; i++) {
+                        for (let j = i + 1; j < nodes.length; j++) {
+                            const dist = Math.hypot(nodes[i].x - nodes[j].x, nodes[i].y - nodes[j].y);
+                            if (dist < 120) {
+                                ctx.beginPath(); ctx.moveTo(nodes[i].x, nodes[i].y); ctx.lineTo(nodes[j].x, nodes[j].y);
+                                ctx.strokeStyle = `rgba(147, 197, 253, ${1-dist/120*0.5})`; ctx.lineWidth = 0.5; ctx.stroke();
+                            }
+                        }
+                    }
+                    requestAnimationFrame(animate);
+                }
+
+                window.addEventListener('resize', init);
+                init();
+                animate();
+            }
+            createNeuralNetwork();
+
+            // --- 2. Registro de Visita ---
+            async function registerVisit() {
+                const visitorCountElement = document.getElementById('visitor-count');
+                try {
+                    const response = await fetch('/register-view/');
+                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                    const data = await response.json();
+                    if (visitorCountElement && data.total_views !== undefined) {
+                        visitorCountElement.textContent = data.total_views;
+                    }
+                } catch (error) {
+                    console.error("Could not register page view:", error);
+                    if (visitorCountElement) visitorCountElement.textContent = visitorCountElement.textContent || 'N/A';
+                }
+            }
+            registerVisit();
+
+            // --- 3. Inicialização do AOS ---
+            AOS.init({ duration: 800, once: true, offset: 100 });
+
+            // --- 4. Lógica do Tema Claro/Escuro ---
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const themeIcon = themeToggleBtn ? themeToggleBtn.querySelector('i') : null;
+
+            function updateThemeIcon() {
+                if (themeIcon) {
+                    themeIcon.className = document.documentElement.classList.contains('dark') ? 'fas fa-sun' : 'fas fa-moon';
+                }
             }
 
-            btnNext.addEventListener('click', () => {
-                if (currentIndex < totalSlides - 1) {
-                    currentIndex++;
-                    updateCarousel();
-                }
-            });
+            function toggleTheme() {
+                const html = document.documentElement;
+                html.classList.toggle('dark');
+                localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+                updateThemeIcon();
+            }
 
-            btnPrev.addEventListener('click', () => {
-                if (currentIndex > 0) {
-                    currentIndex--;
-                    updateCarousel();
-                }
-            });
+            if (themeToggleBtn) {
+                themeToggleBtn.addEventListener('click', toggleTheme);
+            }
+            updateThemeIcon(); // Atualiza o ícone no carregamento da página
 
-            indicators.forEach((indicator, index) => {
-                indicator.addEventListener('click', () => {
-                    currentIndex = index;
-                    updateCarousel();
+            // --- 5. Menu Móvel ---
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenuButton) mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetElement = document.querySelector(this.getAttribute('href'));
+                    if (targetElement) targetElement.scrollIntoView({ behavior: 'smooth' });
+                    if (mobileMenu) mobileMenu.classList.add('hidden');
                 });
             });
 
-            updateCarousel();
-        }
-    }
-</script>
+            // --- 6. Botão Voltar ao Topo ---
+            const backToTopButton = document.getElementById('back-to-top');
+            if (backToTopButton) {
+                window.addEventListener('scroll', () => {
+                    if (window.pageYOffset > 300) backToTopButton.classList.remove('opacity-0', 'invisible');
+                    else backToTopButton.classList.add('opacity-0', 'invisible');
+                });
+                backToTopButton.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+            }
+
+            // --- 7. Formulário de Contato ---
+            const contactForm = document.querySelector('#contato form');
+            if (contactForm) {
+                contactForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    showMessage('Obrigado pela sua mensagem! Em breve entrarei em contato.');
+                    contactForm.reset();
+                });
+            }
+            function showMessage(message, type = 'success') {
+                const messageBox = document.getElementById('contact-message');
+                if (!messageBox) return;
+                messageBox.textContent = message;
+                messageBox.className = `message-box show bg-${type === 'success' ? 'green' : 'red'}-600`;
+                setTimeout(() => messageBox.classList.remove('show'), 3000);
+            }
+
+            // --- 8. Swiper (Carrossel de Projetos) ---
+            if (document.querySelector('.swiper')) {
+                const swiper = new Swiper('.swiper', {
+                    slidesPerView: 1, spaceBetween: 20,
+                    navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+                    pagination: { el: '.swiper-pagination', clickable: true },
+                    breakpoints: { 768: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } }
+                });
+            }
+
+            // --- 9. Carrossel de Habilidades ---
+            const track = document.querySelector('.carousel-track');
+            if (track) {
+                const items = document.querySelectorAll('.skill-category');
+                const btnPrev = document.querySelector('.carousel-btn--left');
+                const btnNext = document.querySelector('.carousel-btn--right');
+                const indicators = document.querySelectorAll('.carousel-indicator');
+                let currentIndex = 0;
+                const totalSlides = items.length;
+                if (totalSlides > 0) {
+                    function updateCarousel() {
+                        track.style.transform = `translateX(-${currentIndex*100}%)`;
+                        indicators.forEach((indicator,i) => indicator.classList.toggle('active',i===currentIndex));
+                        btnPrev.disabled=currentIndex===0; btnNext.disabled=currentIndex===totalSlides-1;
+                    }
+                    btnNext.addEventListener('click', () => { if (currentIndex<totalSlides-1) { currentIndex++; updateCarousel(); } });
+                    btnPrev.addEventListener('click', () => { if (currentIndex>0) { currentIndex--; updateCarousel(); } });
+                    indicators.forEach((indicator, index) => indicator.addEventListener('click', () => { currentIndex=index; updateCarousel(); }));
+                    updateCarousel();
+                }
+            }
+        });
+    </script>
 </body>
 </html>
